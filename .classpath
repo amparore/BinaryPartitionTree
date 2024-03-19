@@ -9,9 +9,6 @@
 	<classpathentry kind="lib" path="lib/jai_codec.jar"/>
 	<classpathentry kind="lib" path="lib/jai_core.jar"/>
 	<classpathentry kind="lib" path="lib/jai_imageio.jar"/>
-	<classpathentry kind="lib" path="lib/sis-jhdf5/lib/args4j-2.33.jar"/>
-	<classpathentry kind="lib" path="lib/sis-jhdf5/lib/commons-io-2.6.jar"/>
-	<classpathentry kind="lib" path="lib/sis-jhdf5/lib/commons-lang3-3.7.jar"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/Image"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
