@@ -44,6 +44,7 @@ package metric.bricks;
 import java.awt.image.BufferedImage;
 
 import metric.bricks.Metric.TypeOfMetric;
+import metric.color.MixedColorArea;
 import metric.color.NdviMetric;
 import metric.color.NdwiMetric;
 import metric.color.RadiometricAverage;
@@ -111,6 +112,7 @@ public class MetricFactory {
 			case OCOL_CONT_MSE: return new Ocolcont(image, TypeOfMetric.OMSE, 0.5);
 			case OCOL_CONT_MSE_LAB: return new Ocolcont(image, TypeOfMetric.OMSE_LAB, 0.5);
 			case OCOL_CONT_WSDM: return new Ocolcont(image, TypeOfMetric.OWSDM, 0.5);
+			case MIXED_COLOR_AREA: return new MixedColorArea(image, 1.0);
 			default: return new Ominmax(image);
 		}
 	}

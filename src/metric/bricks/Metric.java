@@ -117,7 +117,9 @@ public class Metric implements MetricInterface{
 		
 		OMSE_LAB, 
 		OCONTOUR,
-		OCOL_CONT
+		OCOL_CONT,
+		
+		MIXED_COLOR_AREA,
 	}
 	
 	/**

@@ -321,8 +321,8 @@ public class BPT implements Tree, Serializable{
 		this.processName = Strings.PLANTING_A_SEED;
 		
 		this.image = image;
-		this.imgPath = ImTool.getPathOf(image);
-		this.directory = ImTool.getDirOf(image);
+//		this.imgPath = ImTool.getPathOf(image);
+//		this.directory = ImTool.getDirOf(image);
 		this.connectivity = TypeOfConnectivity.CN8;
 		
 		int imgW = image.getWidth();
@@ -330,7 +330,7 @@ public class BPT implements Tree, Serializable{
 		this.maxLonger = imgW;
 		if(this.maxLonger < imgH) this.maxLonger = imgH;
 		
-		Log.println(context, Strings.IMAGE+": "+ ImTool.getNameOf(this.image) +" ("+ this.image.getWidth() +"x"+ this.image.getHeight() +")");
+//		Log.println(context, Strings.IMAGE+": "+ ImTool.getNameOf(this.image) +" ("+ this.image.getWidth() +"x"+ this.image.getHeight() +")");
 		Log.println(context, Strings.DIRECTORY +": "+ this.directory);
 		Log.println(context, Strings.CONNEXITY +": "+ this.connectivity);
 	}
