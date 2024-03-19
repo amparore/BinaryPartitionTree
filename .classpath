@@ -6,9 +6,6 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry excluding="datastructure/set/SetW.java" kind="src" path="src"/>
-	<classpathentry kind="lib" path="lib/jai_codec.jar"/>
-	<classpathentry kind="lib" path="lib/jai_core.jar"/>
-	<classpathentry kind="lib" path="lib/jai_imageio.jar"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/Image"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
