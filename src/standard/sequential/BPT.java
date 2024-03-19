@@ -51,23 +51,15 @@ import java.util.HashSet;
 import java.util.Map.Entry;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
-
-import org.apache.commons.io.FilenameUtils;
-
-import ch.systemsx.cisd.hdf5.HDF5Factory;
-import ch.systemsx.cisd.hdf5.IHDF5Reader;
 import datastructure.Adjacency;
 import datastructure.Node;
-import datastructure.Tree;
 import datastructure.Node.TypeOfNode;
+import datastructure.Tree;
 import datastructure.set.AdjacencySet;
 import datastructure.set.SetOfAdjacencyBuckets;
 import lang.Strings;
 import metric.bricks.Metric;
-import metric.bricks.MetricFactory;
-import metric.bricks.Metric.TypeOfMetric;
 import metric.color.Ominmax;
-import utils.Formula;
 import utils.ImTool;
 import utils.LabelMatrix;
 import utils.Log;
@@ -222,7 +214,7 @@ public class BPT implements Tree, Serializable{
 	/**
 	 * Accessing the HDF5 file.
 	 */
-	public IHDF5Reader reader;
+//	public IHDF5Reader reader;
 
 	/**
 	 * A specific data structure used to store the links between neighbors.
@@ -354,51 +346,51 @@ public class BPT implements Tree, Serializable{
 	 * @see BPT#BPT(BufferedImage) prepares a BPT creation from one image
 	 * @see BPT#BPT(BufferedImage, TypeOfConnectivity) prepares a BPT creation from one image while precising the neighbor type of connectivity
 	 */
-	public BPT(String filePath) {
-		
-		this.processName = Strings.PLANTING_A_SEED;
-		
-		this.reader = HDF5Factory.openForReading(filePath);
-		this.name = this.reader.readString(Strings.VAR_INFO +"/"+ Strings.VAR_NAME);
-		this.directory = this.reader.readString(Strings.VAR_INFO +"/"+ Strings.VAR_DIRECTORY);
-		this.imgPath = this.reader.readString(Strings.VAR_INFO +"/"+ Strings.VAR_IMAGE_PATH);
-		this.imgPath = FilenameUtils.separatorsToSystem(this.imgPath);
-		this.image = ImTool.read(this.imgPath);
-		try{
-			this.preSegPath = this.reader.readString(Strings.VAR_INFO +"/"+ Strings.VAR_PRESEG_PATH);
-//			this.preSegPath = "xp/PR2020/DATA/weizmann1obj/slic/img_3083_modif.tif";
-			this.preSegPath = FilenameUtils.separatorsToSystem(this.preSegPath);
-		}catch(Exception e) {/* no preseg */};
-//		System.out.println("presegpath: "+ this.preSegPath);
-		try{this.preSegImage = ImTool.read(this.preSegPath);}catch(Exception e) {/* no preseg */}
-//		System.exit(0);
-		this.connectivity = TypeOfConnectivity.valueOf(this.reader.readString(Strings.VAR_INFO +"/"+ Strings.VAR_CONNEXITY));
-		this.nbInitialAdjacencies = this.reader.readInt(Strings.VAR_INFO +"/"+ Strings.VAR_NB_INITIAL_ADJACENCIES);
-		this.nbNodes = this.reader.readInt(Strings.VAR_INFO +"/"+ Strings.VAR_NB_NODES);
-		this.nbLeaves = this.reader.readInt(Strings.VAR_INFO +"/"+ Strings.VAR_NB_LEAVES);
-		this.biggestLeafSize = this.reader.readInt(Strings.VAR_INFO +"/"+ Strings.VAR_BIGGEST_LEAF_SIZE);
-		this.timeMs = this.reader.readLong(Strings.VAR_INFO +"/"+ Strings.VAR_TIME_OF_CREATION_MS);
-		this.timeS = this.reader.readLong(Strings.VAR_INFO +"/"+ Strings.VAR_TIME_OF_CREATION_S);
-		this.maxLonger = this.reader.readInt(Strings.VAR_INFO +"/"+ Strings.VAR_MAX_LONGER);
-		
-		String metricInfo = this.reader.readString(Strings.VAR_INFO +"/"+ Strings.VAR_METRIC);
-		String splitMetricInfo[] = metricInfo.split(";");
-		String metricName = splitMetricInfo[0];
-		ArrayList<Double> metricParams = new ArrayList<Double>();
-		for(int i = 1; i < splitMetricInfo.length; ++i) {
-			
-			metricParams.add(Double.valueOf(splitMetricInfo[i]));
-		}
-		TypeOfMetric metricType = TypeOfMetric.valueOf(metricName);
-		this.metric = MetricFactory.initMetric(metricType, this.image);
-		this.metric.setParams(metricParams);
-		
-		Log.println(context, Strings.IMAGE+": "+ ImTool.getNameOf(this.image) +" ("+ this.image.getWidth() +"x"+ this.image.getHeight() +")");
-		Log.println(context, Strings.DIRECTORY +": "+ this.directory);
-		Log.println(context, Strings.CONNEXITY +": "+ this.connectivity);
-		
-		this.regrow();
-	}
+//	public BPT(String filePath) {
+//		
+//		this.processName = Strings.PLANTING_A_SEED;
+//		
+//		this.reader = HDF5Factory.openForReading(filePath);
+//		this.name = this.reader.readString(Strings.VAR_INFO +"/"+ Strings.VAR_NAME);
+//		this.directory = this.reader.readString(Strings.VAR_INFO +"/"+ Strings.VAR_DIRECTORY);
+//		this.imgPath = this.reader.readString(Strings.VAR_INFO +"/"+ Strings.VAR_IMAGE_PATH);
+//		this.imgPath = FilenameUtils.separatorsToSystem(this.imgPath);
+//		this.image = ImTool.read(this.imgPath);
+//		try{
+//			this.preSegPath = this.reader.readString(Strings.VAR_INFO +"/"+ Strings.VAR_PRESEG_PATH);
+////			this.preSegPath = "xp/PR2020/DATA/weizmann1obj/slic/img_3083_modif.tif";
+//			this.preSegPath = FilenameUtils.separatorsToSystem(this.preSegPath);
+//		}catch(Exception e) {/* no preseg */};
+////		System.out.println("presegpath: "+ this.preSegPath);
+//		try{this.preSegImage = ImTool.read(this.preSegPath);}catch(Exception e) {/* no preseg */}
+////		System.exit(0);
+//		this.connectivity = TypeOfConnectivity.valueOf(this.reader.readString(Strings.VAR_INFO +"/"+ Strings.VAR_CONNEXITY));
+//		this.nbInitialAdjacencies = this.reader.readInt(Strings.VAR_INFO +"/"+ Strings.VAR_NB_INITIAL_ADJACENCIES);
+//		this.nbNodes = this.reader.readInt(Strings.VAR_INFO +"/"+ Strings.VAR_NB_NODES);
+//		this.nbLeaves = this.reader.readInt(Strings.VAR_INFO +"/"+ Strings.VAR_NB_LEAVES);
+//		this.biggestLeafSize = this.reader.readInt(Strings.VAR_INFO +"/"+ Strings.VAR_BIGGEST_LEAF_SIZE);
+//		this.timeMs = this.reader.readLong(Strings.VAR_INFO +"/"+ Strings.VAR_TIME_OF_CREATION_MS);
+//		this.timeS = this.reader.readLong(Strings.VAR_INFO +"/"+ Strings.VAR_TIME_OF_CREATION_S);
+//		this.maxLonger = this.reader.readInt(Strings.VAR_INFO +"/"+ Strings.VAR_MAX_LONGER);
+//		
+//		String metricInfo = this.reader.readString(Strings.VAR_INFO +"/"+ Strings.VAR_METRIC);
+//		String splitMetricInfo[] = metricInfo.split(";");
+//		String metricName = splitMetricInfo[0];
+//		ArrayList<Double> metricParams = new ArrayList<Double>();
+//		for(int i = 1; i < splitMetricInfo.length; ++i) {
+//			
+//			metricParams.add(Double.valueOf(splitMetricInfo[i]));
+//		}
+//		TypeOfMetric metricType = TypeOfMetric.valueOf(metricName);
+//		this.metric = MetricFactory.initMetric(metricType, this.image);
+//		this.metric.setParams(metricParams);
+//		
+//		Log.println(context, Strings.IMAGE+": "+ ImTool.getNameOf(this.image) +" ("+ this.image.getWidth() +"x"+ this.image.getHeight() +")");
+//		Log.println(context, Strings.DIRECTORY +": "+ this.directory);
+//		Log.println(context, Strings.CONNEXITY +": "+ this.connectivity);
+//		
+//		this.regrow();
+//	}
 	
 	/**
 	 * Prepares a BPT from one image while precising the neighbor type of connectivity.
@@ -740,19 +732,19 @@ public class BPT implements Tree, Serializable{
 		return this.nodes;
 	}
 	
-	@Override
-	public int[] getPixels(Node leaf) {
-
-		int[] points = null;
-		
-		if(this.reader != null) {
-			
-			int[][] row = reader.int32().readMatrixBlock(Strings.VAR_STRUCTURE +"/"+ Strings.VAR_LEAVES, 1, leaf.getSize(), leaf.name, 1);
-			points = row[0];
-		}
-		
-		return points;
-	}
+//	@Override
+//	public int[] getPixels(Node leaf) {
+//
+//		int[] points = null;
+//		
+//		if(this.reader != null) {
+//			
+//			int[][] row = reader.int32().readMatrixBlock(Strings.VAR_STRUCTURE +"/"+ Strings.VAR_LEAVES, 1, leaf.getSize(), leaf.name, 1);
+//			points = row[0];
+//		}
+//		
+//		return points;
+//	}
 
 	@Override
 	public BufferedImage getPreSegImage() {
@@ -778,11 +770,11 @@ public class BPT implements Tree, Serializable{
 		return this.progress;
 	}
 	
-	@Override
-	public IHDF5Reader getReader() {
-
-		return this.reader;
-	}
+//	@Override
+//	public IHDF5Reader getReader() {
+//
+//		return this.reader;
+//	}
 	
 	@Override
 	public Node getRoot() {
@@ -1007,92 +999,92 @@ public class BPT implements Tree, Serializable{
 	 * <li> Defines the root
 	 * 
 	 */
-	private void regrow() {
-		
-		this.setOfAdjacencies = new SetOfAdjacencyBuckets();
-		
-		this.processName = Strings.STARTING_TO_GROW;
-		Log.println(context, Strings.STARTING_TREE_CREATION);	
-		long startingTime = System.nanoTime();
-		
-		this.processName = Strings.PREPARING_LEAVES;
-		/* Prepare the list of leaves */
-		this.nodes = new Node[this.nbNodes];
-		Log.println(context, Strings.NB_NODES_TO_CREATE +": "+ this.nodes.length +" (including leaves)");
-		Log.println(context, Strings.NB_LEAVES_TO_CREATE +": "+ this.nbLeaves);
-		
-		/* Regroup pixels in the leaves */
-		int leafIndex = 0;
-		for(int i = 0; i < this.nbLeaves; ++i) {
-		
-			leafIndex = i;
-			Node l = new Node(i);
-			l.label = i;
-			l.type = TypeOfNode.LEAF;
-			int[][] nbPixelCell = this.reader.int32().readMatrixBlock(Strings.VAR_STRUCTURE +"/"+ Strings.VAR_LEAVES,
-																	  1, 1, i, 0);
-			l.nbPixels = nbPixelCell[0][0];
-			
-			int[][] pixelLocations = this.reader.int32().readMatrixBlock(Strings.VAR_STRUCTURE +"/"+ Strings.VAR_LEAVES, 
-																		 1, (l.nbPixels+1), i, 0);
-			int lastI = l.nbPixels;
-			for(int k = 1; k <= lastI; ++k) {
-				
-				int posVal = pixelLocations[0][k];
-				int x = Formula.toX(posVal, this.maxLonger);
-				int y = Formula.toY(posVal, this.maxLonger);
-				l.addPixel(x, y);
-			}
-			this.nodes[i] = l;
-		}
-		Log.println(context, Strings.NB_LEAVES_CREATED +": "+ (leafIndex + 1) +"/"+ this.nbLeaves);
-		
-		this.processName = Strings.MERGING_NODES;
-		
-		/* Number of estimated fusions */
-		int nbFusions = this.nbLeaves - 1;
-		int numFusion = 1;
-		
-		/* Merge leaves and nodes until obtaining the root */
-		Node n = null;
-		for(int i = 0; i < nbFusions; ++i) {
-			
-			this.progress = (numFusion * 100) / nbFusions;
-			Log.println(context +"_FUSION", this.progress +"%");
-			
-			int[][] childMatrix = this.reader.int32().readMatrixBlock(Strings.VAR_STRUCTURE +"/"+ Strings.VAR_NODES,
-																	  1, 4, i, 0);
-			int nodeName = childMatrix[0][0];
-			Node l = this.nodes[childMatrix[0][1]];
-			Node r = this.nodes[childMatrix[0][2]];
-			n = new Node(nodeName, l, r);
-			n.type = TypeOfNode.NODE;
-			n.perimeter = childMatrix[0][3];
-			
-			/* set the node level and the tree max depth */
-			n.updateLvl(Math.max(l.lvl, r.lvl) + 1);
-			if(this.maxDepth < n.lvl) this.maxDepth = n.lvl;
-			
-			this.nodes[nodeName] = n;
-			
-			numFusion++;			
-		}
-		
-		if(n != null) {
-			
-			n.type = TypeOfNode.ROOT;
-		}
-		
-		long endingTime = System.nanoTime();
-		long regrowTimeMs = (endingTime - startingTime)/1000000;
-		long regrowTimeS = regrowTimeMs / 1000;
-		Log.println(context, Strings.NB_ADJACENCIES_GENERATED +": "+ this.getNbAdjacencies());
-		Log.println(context, Strings.NB_NODES_CREATED +": "+ (leafIndex + numFusion));		
-		Log.println(context, Strings.TREE_CREATION_IN +" "+ regrowTimeMs +" ms ("+ regrowTimeS +" s)\n");
-		
-		this.processName = Strings.FINALIZING;
-		this.ended = true;
-	}
+//	private void regrow() {
+//		
+//		this.setOfAdjacencies = new SetOfAdjacencyBuckets();
+//		
+//		this.processName = Strings.STARTING_TO_GROW;
+//		Log.println(context, Strings.STARTING_TREE_CREATION);	
+//		long startingTime = System.nanoTime();
+//		
+//		this.processName = Strings.PREPARING_LEAVES;
+//		/* Prepare the list of leaves */
+//		this.nodes = new Node[this.nbNodes];
+//		Log.println(context, Strings.NB_NODES_TO_CREATE +": "+ this.nodes.length +" (including leaves)");
+//		Log.println(context, Strings.NB_LEAVES_TO_CREATE +": "+ this.nbLeaves);
+//		
+//		/* Regroup pixels in the leaves */
+//		int leafIndex = 0;
+//		for(int i = 0; i < this.nbLeaves; ++i) {
+//		
+//			leafIndex = i;
+//			Node l = new Node(i);
+//			l.label = i;
+//			l.type = TypeOfNode.LEAF;
+//			int[][] nbPixelCell = this.reader.int32().readMatrixBlock(Strings.VAR_STRUCTURE +"/"+ Strings.VAR_LEAVES,
+//																	  1, 1, i, 0);
+//			l.nbPixels = nbPixelCell[0][0];
+//			
+//			int[][] pixelLocations = this.reader.int32().readMatrixBlock(Strings.VAR_STRUCTURE +"/"+ Strings.VAR_LEAVES, 
+//																		 1, (l.nbPixels+1), i, 0);
+//			int lastI = l.nbPixels;
+//			for(int k = 1; k <= lastI; ++k) {
+//				
+//				int posVal = pixelLocations[0][k];
+//				int x = Formula.toX(posVal, this.maxLonger);
+//				int y = Formula.toY(posVal, this.maxLonger);
+//				l.addPixel(x, y);
+//			}
+//			this.nodes[i] = l;
+//		}
+//		Log.println(context, Strings.NB_LEAVES_CREATED +": "+ (leafIndex + 1) +"/"+ this.nbLeaves);
+//		
+//		this.processName = Strings.MERGING_NODES;
+//		
+//		/* Number of estimated fusions */
+//		int nbFusions = this.nbLeaves - 1;
+//		int numFusion = 1;
+//		
+//		/* Merge leaves and nodes until obtaining the root */
+//		Node n = null;
+//		for(int i = 0; i < nbFusions; ++i) {
+//			
+//			this.progress = (numFusion * 100) / nbFusions;
+//			Log.println(context +"_FUSION", this.progress +"%");
+//			
+//			int[][] childMatrix = this.reader.int32().readMatrixBlock(Strings.VAR_STRUCTURE +"/"+ Strings.VAR_NODES,
+//																	  1, 4, i, 0);
+//			int nodeName = childMatrix[0][0];
+//			Node l = this.nodes[childMatrix[0][1]];
+//			Node r = this.nodes[childMatrix[0][2]];
+//			n = new Node(nodeName, l, r);
+//			n.type = TypeOfNode.NODE;
+//			n.perimeter = childMatrix[0][3];
+//			
+//			/* set the node level and the tree max depth */
+//			n.updateLvl(Math.max(l.lvl, r.lvl) + 1);
+//			if(this.maxDepth < n.lvl) this.maxDepth = n.lvl;
+//			
+//			this.nodes[nodeName] = n;
+//			
+//			numFusion++;			
+//		}
+//		
+//		if(n != null) {
+//			
+//			n.type = TypeOfNode.ROOT;
+//		}
+//		
+//		long endingTime = System.nanoTime();
+//		long regrowTimeMs = (endingTime - startingTime)/1000000;
+//		long regrowTimeS = regrowTimeMs / 1000;
+//		Log.println(context, Strings.NB_ADJACENCIES_GENERATED +": "+ this.getNbAdjacencies());
+//		Log.println(context, Strings.NB_NODES_CREATED +": "+ (leafIndex + numFusion));		
+//		Log.println(context, Strings.TREE_CREATION_IN +" "+ regrowTimeMs +" ms ("+ regrowTimeS +" s)\n");
+//		
+//		this.processName = Strings.FINALIZING;
+//		this.ended = true;
+//	}
 
 	/**
 	 * Delete an adjacency from the RAG (Region Adjacency Graph).

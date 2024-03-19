@@ -44,7 +44,7 @@ package datastructure;
 
 import java.awt.image.BufferedImage;
 
-import ch.systemsx.cisd.hdf5.IHDF5Reader;
+//import ch.systemsx.cisd.hdf5.IHDF5Reader;
 import metric.bricks.Metric;
 import standard.sequential.BPT;
 import standard.sequential.BPT.TypeOfConnectivity;
@@ -197,7 +197,7 @@ public interface Tree {
 	 * @param leaf to consider
 	 * @return an arrow of values corresponding to each point regrouped in the leaf
 	 */
-	public int[] getPixels(Node leaf);
+//	public int[] getPixels(Node leaf);
 
 	/**
 	 * 
@@ -228,7 +228,7 @@ public interface Tree {
 	 * 
 	 * @return the opened reader letting the access to a bpt previously stored in the hdf5 file
 	 */
-	public IHDF5Reader getReader();
+//	public IHDF5Reader getReader();
 	
 	/**
 	 * 
