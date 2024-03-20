@@ -898,6 +898,7 @@ public class BPT implements Tree, Serializable{
 			Log.println(context +"_FUSION", this.progress +"%");
 			
 			Adjacency potentialAdjacency = this.setOfAdjacencies.optimalAdjacency();
+//			System.out.println(potentialAdjacency.distance+" "+potentialAdjacency.getIndex());
 	
 			/* Create a new node */
 			Node leftNode = potentialAdjacency.node1;

@@ -48,18 +48,23 @@ import datastructure.Node;
 
 public class MixedColorArea extends Ominmax {
 
+	// mixing coefficient
 	private double alpha;
+	
+	// image area
+	private double num_image_pixels;
 
 	public MixedColorArea(BufferedImage image, double alpha) {
 		super(image);
 		this.alpha = alpha;
+		this.num_image_pixels = image.getWidth() * image.getHeight();
 //		System.out.println("Using MixedColorArea.");
 	}
 	
 	@Override
 	public double computeDistances(Node n1, Node n2) {
 		
-		double colorScore = super.computeDistances(n1, n2) * alpha; // / 100.0;
+		double colorScore = (super.computeDistances(n1, n2) + 1) / (768.0) * alpha; // / 100.0;
 		double areaScore = computeAreaScore(n1, n2) * (1.0 - alpha);
 		
 //		System.out.println(colorScore+" * "+areaScore);
@@ -67,8 +72,17 @@ public class MixedColorArea extends Ominmax {
 		return colorScore * areaScore;
 	}
 	
-	private static double computeAreaScore(Node n1, Node n2) {		
-		return n1.getPixels().size() + n2.getPixels().size();
+	private double computeAreaScore(Node n1, Node n2) {
+		double area1 = n1.getPixels().size() / num_image_pixels;
+		double area2 = n2.getPixels().size() / num_image_pixels;
+
+//		return (Math.abs(area1 - area2) + 1.0/num_image_pixels);
+//		return (Math.abs(area1 - area2) + 1) + (area1 + area2);
+		
+		
+//		return Math.min(area1, area2) / Math.max(area1, area2) * (area1 + area2);
+		return area1 + area2;
+//		return n1.getPixels().size() + n2.getPixels().size();
 	}
 
 	

@@ -63,10 +63,12 @@ public class AA_BPT_SavingInterface {
 
 	public static void main(String[] args) {
 				
-//		args = new String[]{"../../imgs/bird3.png",
+//		args = new String[]{//"../../imgs/bird3.png",
 //							//"xp/examples/six_regions_3_3.png",
-//							"../../imgs/bird3.bpt",
-//							"0.5"};
+//							"../../imgs/egret.png",
+////						    "../O.png",
+//							"../__bpt_cache__/test.bpt",
+//							"0.50"};
 		
 		if (args.length != 3) {
 			System.out.println("Usage:  java -jar BPT.jar  <image_filename>  <out.bpt>  <alpha>");
